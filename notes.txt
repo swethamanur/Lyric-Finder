@@ -1,0 +1,37 @@
+What is Context api in react? Refer: https://reactjs.org/docs/context.html
+There are situations where some compoenent values are required by all the componenets in the componenet structure, like curret_user, ui theme,etc.
+
+Tradionally, we pass the values in a top-down (parent to child) in the form of props.
+This can be difficult to assign props for each compoenet to access a certain value that is common across the child elements.
+
+Context lets us pass value deep into the compoennet tre, without explicitly threading it thru each compoenent.
+
+1. First create the context using the React.createContext('light');
+2. Use 'Provider' to pass the current theme to the tree below.
+
+Lyric Finder App:
+Context api usuage:
+1. Craete a file called context.js that is where the Context Provider and Consumer are created.
+
+2. In context.js, we create Provider class
+const Context = React.createContext();
+export class Provider extends Component{
+    state={
+        what ever value you want to pass down
+    }
+    render(){
+        <Context.Provider value={this.state}>
+            {this.props.childer}
+        </Contexr.Provider>
+    }
+
+}
+
+//this to able to be consumed by all the componenet;(the value in the Context.Provider)
+export const Consumer = Context.Consumer;
+
+3. import this context .js file and use the Consumer object and get the value(this.state) which was defined in the Context.Provider.
+
+4. All of the code needs to be wrapped under the Provider tag in App.js.
+
+**What is this.props.children??**
