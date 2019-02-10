@@ -45,10 +45,11 @@ class Tracks extends Component{
                                     <select className="custom-select"  onChange={this.onChange.bind(this,dispatch)}>
                                         {/* <option value="XW">WorldWide</option> */}
                                         <option selected>Choose Country</option>
+                                        <option value="FR">France</option>
                                         <option value="IN">India</option>
                                         <option value="IT">Italy</option>
                                         <option value="JP">Japan</option>
-                                        <option value="UK">United Kingdom</option>
+                                        <option value="ky">United Kingdom</option>
                                         <option value="US">United States</option>
                                     </select>
                                 </div>

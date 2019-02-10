@@ -9,11 +9,12 @@ import Lyrics from './components/tracks/Lyrics';
 class App extends Component {
   render() {
     return (
+      
       <Provider>
         <Router>
           <React.Fragment>
             <Navbar/>
-            <div className="container">
+            <div className="container app">
               <Switch>
                 <Route exact path="/" component={Index}/>
                 <Route path="/lyrics/track/:id" component={Lyrics}/>
@@ -22,6 +23,7 @@ class App extends Component {
           </React.Fragment>
         </Router>
       </Provider>
+     
      
     );
   }
