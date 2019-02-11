@@ -15,7 +15,9 @@ class Search extends Component {
         word: '',
         artist: '',
         track:'',
-        language:'en'
+        language:'en',
+        artistRating: 'desc',
+        trackRating:'desc'
     }
 
     onChange = (e) =>{
@@ -29,17 +31,17 @@ class Search extends Component {
         const {options,selectedIndex,value} = e.target;
         console.log(options[selectedIndex].label);
    
-        this.setState({ language: options[selectedIndex].value})
+        this.setState({ [e.target.name]: options[selectedIndex].value})
     }
 
     findTrack = (dispatch,e) => {
-        let {word,artist,track,language,titleTrack} = this.state;
+        let {word,artist,track,language,titleTrack,artistRating} = this.state;
         if(titleTrack !== ''|| word !== undefined || artist !== undefined || track !== undefined ){
             e.preventDefault();
             const musixmatchAPI= "d9eaf5f5458dde74b42874e05e7081a8";
             
 
-            axios.get(`https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.search?q_track_artist=${titleTrack}&f_has_lyrics=1&f_lyrics_language=${language}&q_track=${track}&q_artist=${artist}&q_lyrics=${word}&page_size=10&page=1&s_track_rating=desc&apikey=${musixmatchAPI}`).then(res => {
+            axios.get(`https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.search?q_track_artist=${titleTrack}&f_has_lyrics=1&f_lyrics_language=${language}&q_track=${track}&q_artist=${artist}&s_artist_rating=${artistRating}&q_lyrics=${word}&page_size=10&page=1&s_track_rating=desc&apikey=${musixmatchAPI}`).then(res => {
 
             dispatch({
                 type: 'SEARCH_TRACKS',
@@ -136,7 +138,20 @@ class Search extends Component {
                                                         <option value="kn">Kannada</option>
                                                         <option value="ta">Tamil</option>
                                                         <option value="te">Telugu</option>
+                                                    </select><br/>
+
+                                                    <label>Artist Rating</label>    
+                                                    <select name="artistRating" className="custom-select" onChange={this.onChangeSelect}>
+                                                        <option value="desc">Most Popular</option>
+                                                        <option value="asc">Least Popular</option>
                                                     </select>
+
+                                                    <label>Track Rating</label>    
+                                                    <select name="trackRating" className="custom-select" onChange={this.onChangeSelect}>
+                                                        <option value="desc">Most Popular</option>
+                                                        <option value="asc">Least Popular</option>
+                                                    </select>
+
                                                     <Modal.Footer>
                                                     <button className="btn btn-secondary" onClick={this.handleClose}>Close</button>
                                                     <button  className="btn btn-primary" type="submit">Filter</button>

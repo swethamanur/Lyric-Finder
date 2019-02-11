@@ -6,6 +6,9 @@ import Track from '../tracks/Track';
 import axios from 'axios';
 
 class Tracks extends Component{
+    state={
+        alertMessage: ''
+    }
 
     onChange=(dispatch,e) => {
         const {options, selectedIndex,value} = e.target;
@@ -33,9 +36,8 @@ class Tracks extends Component{
                     //object destructuring
                     const {track_list,heading,region,dispatch} = value;
                     console.log(track_list);
-                    if(track_list === undefined || track_list.length === 0){
-                        
-                        return <Spinner/>
+                    if(track_list === undefined || track_list.length === 0){   
+                        return <Spinner/>  
                     }else{
                         return (
                             <React.Fragment>
@@ -53,6 +55,7 @@ class Tracks extends Component{
                                         <option value="US">United States</option>
                                     </select>
                                 </div>
+                                
                                
                                 <div className="row">
                                     {track_list.map((item) => (
