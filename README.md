@@ -4,13 +4,13 @@ App that finds song lyrics using React and the Musixmatch API. There is a filter
 
 # Quick Start
   <h3><b>Install dependencies</b></h3>
-  npm install
+  <code>npm install</code>
 
   <h3><b>Serve on localhost:3000</b></h3>
-  npm start
+  <code>npm start</code>
 
   <h3><b>Build for production</b></h3>
-  npm run build
+  <code>npm run build</code>
 
 # Dependencies 
 <table>
