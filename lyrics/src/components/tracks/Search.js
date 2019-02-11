@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import '../../App.css'
+import {Modal,Button} from 'react-bootstrap';
 
 import {Consumer} from '../../context';
 
@@ -8,30 +9,44 @@ class Search extends Component {
 
     state = {
         titleTrack: '',
-        error: ''
+        error: '',
+        //modal
+        show: false,
+        word: '',
+        artist: '',
+        track:'',
+        language:'en'
     }
 
     onChange = (e) =>{
-            this.setState({
-                [e.target.name]: e.target.value 
-            });
-      
+        
+        this.setState({
+            [e.target.name]: e.target.value  
+        }); 
     };
 
+    onChangeSelect =(e) => {
+        const {options,selectedIndex,value} = e.target;
+        console.log(options[selectedIndex].label);
+   
+        this.setState({ language: options[selectedIndex].value})
+    }
+
     findTrack = (dispatch,e) => {
-        if(this.state.titleTrack !== ''){
+        let {word,artist,track,language,titleTrack} = this.state;
+        if(titleTrack !== ''|| word !== undefined || artist !== undefined || track !== undefined ){
             e.preventDefault();
-            const musixmatchAPI= "d9eaf5f5458dde74b42874e05e7081a8"
+            const musixmatchAPI= "d9eaf5f5458dde74b42874e05e7081a8";
+            
 
-
-         axios.get(`https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.search?q_track_artist=${this.state.titleTrack}&f_has_lyrics=1&f_lyrics_language=en&page_size=10&page=1&s_track_rating=desc&apikey=${musixmatchAPI}`).then(res => {
+            axios.get(`https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.search?q_track_artist=${titleTrack}&f_has_lyrics=1&f_lyrics_language=${language}&q_track=${track}&q_artist=${artist}&q_lyrics=${word}&page_size=10&page=1&s_track_rating=desc&apikey=${musixmatchAPI}`).then(res => {
 
             dispatch({
                 type: 'SEARCH_TRACKS',
                 payload: res.data.message.body.track_list
             });
 
-            this.setState({titleTrack: ''});
+            this.setState({titleTrack: '', show: false});
             
         }).catch(err => {
             console.log(err);
@@ -52,6 +67,15 @@ class Search extends Component {
     removeAlert =(e) => {
        document.getElementById('alert').remove();
        this.setState({error: ''})
+    }
+
+    //Enabling/disabling Modal for filter search
+    handleShow = () => {
+        this.setState({show: true})
+    }
+
+    handleClose = (e) => {
+        this.setState({show: false});
     }
 
     render(){
@@ -80,13 +104,48 @@ class Search extends Component {
                                 <form className="form-group" onSubmit={this.findTrack.bind(this,dispatch)}>
                                     <div className="input-group mb-3 input-field">
 
-                                    <input type="text" class="form-control mb-3" placeholder="Search Song or Artist..."/>
+                                    <input type="text" class="form-control mb-3" name="titleTrack" onChange={ this.onChange} value={this.state.titleTrack} placeholder="Search Song or Artist..."/>
 
                                         <div class="input-group-append">
-                                            <button class="btn btn-secondary mb-3" type="button">
-                                                <i class="fas fa-filter"></i>
+                                            <button class="btn btn-secondary mb-3" 
+                                            onClick={this.handleShow} type="button" title="Filter More">  
+                                                <i className="fas fa-filter"></i>
                                             </button>
                                         </div>
+
+                                        {/* Modal */}
+                                        <Modal show={this.state.show} onHide={this.handleClose}>
+                                            <Modal.Header closeButton>
+                                                <Modal.Title>Filter Search</Modal.Title>
+                                            </Modal.Header>
+                                            <Modal.Body>
+                                                <form className="form-group" onSubmit={this.findTrack.bind(this,dispatch)}>
+                                                    <label  for="word">Any word from the lyrics:</label>
+                                                    <input type="text" name="word" id="word" value={this.state.word} onChange={this.onChange} className="form-control"/>
+
+                                                    <label>Artist:</label><input type="text" name="artist" onChange={this.onChange} value={this.state.artist} className="form-control"/>
+
+                                                    <label>Track:</label><input type="text" name="track" onChange={this.onChange} value={this.state.track} className="form-control"/>
+
+                                                    <label>Lyrics Language</label>
+                                                    <select name="language" className="custom-select" onChange={this.onChangeSelect}>
+                                                        <option value="en">English</option>
+                                                        <option value="it">Italian</option>
+                                                        <option value="zh">Chinese</option>
+                                                        <option value="hi">Hindi</option>
+                                                        <option value="kn">Kannada</option>
+                                                        <option value="ta">Tamil</option>
+                                                        <option value="te">Telugu</option>
+                                                    </select>
+                                                    <Modal.Footer>
+                                                    <button className="btn btn-secondary" onClick={this.handleClose}>Close</button>
+                                                    <button  className="btn btn-primary" type="submit">Filter</button>
+                                                    </Modal.Footer>
+                                                </form>
+                                            </Modal.Body>
+                                            
+                                        </Modal>
+                                        
                                         
                                         <button type="submit" className="btn btn-primary btn-block mb-4" >Get Song Lyrics</button>
                                     </div>    
