@@ -3,13 +3,13 @@ App that finds song lyrics using React and the Musixmatch API. There is a filter
 <hr>
 
 # Quick Start
-  # Install dependencies
+  <h3><b>Install dependencies</b></h3>
   npm install
 
-  # Serve on localhost:3000
+  <h3><b>Serve on localhost:3000</b></h3>
   npm start
 
-  # Build for production
+  <h3><b>Build for production</b></h3>
   npm run build
 
 # Dependencies 
@@ -51,10 +51,10 @@ Go to https://developer.musixmatch.com to get your API key.
 
   
 # App Info
- #Author
+ <h3><b>Author</b></h3>
  Swetha Manur
 
- #Version
+ <h3><b>Version</b></h3>
   1.0.0
 
 
