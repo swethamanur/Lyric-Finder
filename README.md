@@ -7,11 +7,16 @@ App that finds song lyrics using React and the Musixmatch API. There is a filter
   <thead>
     <tr>
       <th>Package</th>
+      <th>Description</th>
       <th>Path</th>
-      <th>Command</th>
     </tr> 
   </thead>
   <tbody>
+    <tr>
+      <td>React-Moment</td>
+      <td>React component for the moment date library.</td>
+      <td>https://www.npmjs.com/package/react-moment</td>
+    </tr> 
   </tbody> 
 <table>  
   
